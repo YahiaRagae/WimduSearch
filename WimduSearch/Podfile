@@ -1,0 +1,10 @@
+use_frameworks!
+
+pod 'Alamofire', '~> 3.4' 
+pod "AFViewShaker", "~> 0.0.2"
+pod "MLPAutoCompleteTextField"
+pod "TSMessages"
+pod 'Toast', '~> 3.0'
+pod 'SwiftyJSON'
+
+

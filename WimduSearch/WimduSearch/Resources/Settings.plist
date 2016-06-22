@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>MainURL</key>
+	<string>http://private-anon-e11e9b16b-wimdumobile.apiary-mock.com/api/v3/</string>
+	<key>URLs</key>
+	<dict>
+		<key>URL_SEARCH_SUGGESTIONS</key>
+		<string>search_suggestions</string>
+	</dict>
+</dict>
+</plist>
