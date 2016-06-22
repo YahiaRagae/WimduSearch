@@ -17,6 +17,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TNM-Fp-BC5">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <connections>
+                                    <action selector="btnDismissKeyBoard:" destination="BYZ-38-t0r" eventType="touchUpInside" id="shb-AW-JsK"/>
+                                </connections>
+                            </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="a8P-Nc-8mu" customClass="MLPAutoCompleteTextField">
                                 <rect key="frame" x="20" y="132" width="280" height="30"/>
                                 <constraints>
@@ -32,9 +38,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="TNM-Fp-BC5" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="-20" id="2wt-DP-CqM"/>
                             <constraint firstItem="a8P-Nc-8mu" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="20" id="BoH-7z-P2Y"/>
+                            <constraint firstItem="TNM-Fp-BC5" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="EzI-S4-rX3"/>
+                            <constraint firstAttribute="trailing" secondItem="TNM-Fp-BC5" secondAttribute="trailing" id="La1-sM-bNu"/>
                             <constraint firstAttribute="trailing" secondItem="a8P-Nc-8mu" secondAttribute="trailing" constant="20" id="gsB-Gf-JH1"/>
                             <constraint firstItem="a8P-Nc-8mu" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="112" id="iCm-s5-q9k"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="TNM-Fp-BC5" secondAttribute="bottom" id="z5G-Zt-qJo"/>
                         </constraints>
                     </view>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>

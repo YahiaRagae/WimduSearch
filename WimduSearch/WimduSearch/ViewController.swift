@@ -18,14 +18,18 @@ class ViewController: UIViewController ,MLPAutoCompleteTextFieldDataSource,MLPAu
     // MARK: UIViewController LifeCycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        searchDataFetcher = SearchDataFetcher();
-       
-        // Do any additional setup after loading the view, typically from a nib.
+        initData();
+        initViews();
+        
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    
+    // MARK: Class Methods
+    func   initData(){
+        searchDataFetcher = SearchDataFetcher();
+    }
+    func   initViews(){
+        tfCityName.autoCompleteTableAppearsAsKeyboardAccessory = true
     }
     
     // MARK: MLPAutoCompleteTextFieldDelegate Methods
@@ -38,7 +42,7 @@ class ViewController: UIViewController ,MLPAutoCompleteTextFieldDataSource,MLPAu
                 for i in 0 ..< items.count{
                     let group:SugestionGroup = items.objectAtIndex(i) as! SugestionGroup
                     for x in 0 ..< group.suggestions!.count{
-                        let item:Suggestions =  group.suggestions![x] 
+                        let item:Suggestions =  group.suggestions![x]
                         sugestionsStr.addObject("\(item.localizedName!) - "  + group.type!)
                     }
                     
@@ -53,7 +57,12 @@ class ViewController: UIViewController ,MLPAutoCompleteTextFieldDataSource,MLPAu
         
         
     }
-
-
+    // MARK: IBAction Methods
+    
+    @IBAction func btnDismissKeyBoard(sender: AnyObject) {
+        tfCityName.resignFirstResponder()
+    }
+    
+    
 }
 
