@@ -8,11 +8,14 @@
 
 import UIKit
 import MLPAutoCompleteTextField
-class ViewController: UIViewController ,MLPAutoCompleteTextFieldDataSource,MLPAutoCompleteTextFieldDelegate{
+class ViewController: UIViewController ,MLPAutoCompleteTextFieldDataSource,MLPAutoCompleteTextFieldDelegate,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate{
+    
     
     var searchDataFetcher:SearchDataFetcher!;
-    @IBOutlet weak var tfCityName: MLPAutoCompleteTextField!
+    var sugestionsList:NSMutableArray = NSMutableArray();
     
+    @IBOutlet weak var tfCityName: UITextField!
+    @IBOutlet weak var tableView: UITableView!
     
     
     // MARK: UIViewController LifeCycle Methods
@@ -29,34 +32,62 @@ class ViewController: UIViewController ,MLPAutoCompleteTextFieldDataSource,MLPAu
         searchDataFetcher = SearchDataFetcher();
     }
     func   initViews(){
-        tfCityName.autoCompleteTableAppearsAsKeyboardAccessory = true
+       
     }
-    
-    // MARK: MLPAutoCompleteTextFieldDelegate Methods
-    
-    // MARK: MLPAutoCompleteTextFieldDataSource Methods
-    func autoCompleteTextField(textField: MLPAutoCompleteTextField!, possibleCompletionsForString string: String!, completionHandler handler: (([AnyObject]!) -> Void)!) {
-        let sugestionsStr : NSMutableArray = NSMutableArray();
-        if(string.characters.count > 2){
+    // MARK: UITextFieldDelegate Methods
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        if(textField.text!.characters.count>1){
+            sugestionsList = NSMutableArray()
             searchDataFetcher.search(string) { (items, status) in
-                for i in 0 ..< items.count{
-                    let group:SugestionGroup = items.objectAtIndex(i) as! SugestionGroup
-                    for x in 0 ..< group.suggestions!.count{
-                        let item:Suggestions =  group.suggestions![x]
-                        sugestionsStr.addObject("\(item.localizedName!) - "  + group.type!)
-                    }
-                    
+                self.sugestionsList.addObjectsFromArray(items as [AnyObject]);
+                self.tableView.reloadData()
+                UIView.animateWithDuration(0.5) {
+                    self.tableView.alpha = 1
                 }
-                handler(sugestionsStr as [AnyObject])
                 
             }
-        }else{
-            handler(sugestionsStr as [AnyObject])
         }
-        
-        
-        
+        return true
     }
+    
+    // MARK: UITableViewDataSource Methods
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if(sugestionsList.count>0){
+            if let group  : SugestionGroup =  (sugestionsList.objectAtIndex(section) as! SugestionGroup){
+                return (group.suggestions?.count)!
+            }
+        }
+        return 0
+    }
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return sugestionsList.count
+    }
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if let group  : SugestionGroup =  (sugestionsList.objectAtIndex(section) as! SugestionGroup){
+            return group.type!
+        }else{
+            return ""
+        }
+
+    }
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell : UITableViewCell = tableView.dequeueReusableCellWithIdentifier("cell")!
+          let item : Suggestions  = (sugestionsList.objectAtIndex(indexPath.section) as!  SugestionGroup).suggestions![indexPath.row]
+        cell.textLabel?.text = item.localizedName
+        return cell;
+    }
+    
+    // MARK: UITableViewDelegate Methods
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let item : Suggestions  = (sugestionsList.objectAtIndex(indexPath.section) as!  SugestionGroup).suggestions![indexPath.row]
+        tfCityName.text = item.localizedName
+        UIView.animateWithDuration(0.5) { 
+            tableView.alpha = 0
+        }
+    }
+   
+    
+    
     // MARK: IBAction Methods
     
     @IBAction func btnDismissKeyBoard(sender: AnyObject) {

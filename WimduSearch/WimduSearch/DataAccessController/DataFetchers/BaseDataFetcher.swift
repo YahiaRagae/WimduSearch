@@ -6,8 +6,7 @@
 //  Copyright © 2016 Yahia Mahrous. All rights reserved.
 //
 
-import Foundation
-import Foundation
+import Foundation 
 import Alamofire
 
 // MARK: BaseDataFetcher
@@ -26,9 +25,12 @@ import Alamofire
     
     
     public func getRequestWithJsonReponse(link link:String , andSearchKewWord searchWord:String,  withCompletion completion:(response : Response<AnyObject, NSError> , status : Bool )->Void ){
-
-        
+        if(currentRquest != nil){
+            currentRquest?.cancel()
+        }
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         let request = NSMutableURLRequest(URL: NSURL(string: link)!)
+        request.cachePolicy = .ReturnCacheDataElseLoad
         request.HTTPMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         //let bodyString = "\"q\" = \"\(searchWord)\""
@@ -37,7 +39,7 @@ import Alamofire
         currentRquest = Alamofire.request(request)
             .validate()
             .responseJSON { response in
-                
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 switch response.result {
                 case .Success:
                     NSLog("Success")
